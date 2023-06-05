@@ -19,20 +19,26 @@ import unittest  # Не удалять
 # Здесь пишем код
 
 class Trigon:
-    def __init__(self, *side):
-        self.side = side
+    def __init__(self, *args):
+        if len(args) != 3:
+            raise IndexError(f"Передано {len(args)} аргументов, а ожидается 3")
 
-    def checking_data_triangle(self, side):
-        for checking_index in side:
-            if len(side) != 2:
-                return IndexError(f"Передано {len(side)} элементов, а ожидается 3")
-            if type(checking_index) is not int:
-                return TypeError("Стороны должны быть числами")
-            if checking_index <= 0:
-                return ValueError("Стороны должны быть положительными")
-            if (side[0] + side[1] > side[2]) and (side[0] + side[2] > side[1]) \
-                    and (side[1] + side[2] > side[0]) is not True:
-                return Exception("Не треугольник")
+        args = list(args)
+        try:
+            for side in args:
+                if not isinstance(side, (int, float)):
+                    raise TypeError("Стороны должны быть числами")
+                if side <= 0:
+                    raise ValueError("Стороны должны быть положительными")
+
+                if args[0] <= abs(args[1] - args[2]):
+                    raise Exception('Не треугольник')
+        except TypeError:
+            raise TypeError('Стороны должны быть числами')
+        except ValueError:
+            raise ValueError('Стороны должны быть положительными')
+        except Exception:
+            raise Exception('Не треугольник')
 
 # Ниже НИЧЕГО НЕ НАДО ИЗМЕНЯТЬ
 
